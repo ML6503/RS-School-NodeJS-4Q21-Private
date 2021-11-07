@@ -1,17 +1,15 @@
 const fs = require("fs");
 const { pipeline } = require("stream");
-const caesarCipher = require("./caesarCipher");
 const WritableStream = require("./writable");
+process.stdin.setEncoding("utf8");
 
 const args = process.argv;
 const config = args.slice(2, args.length);
 let configData;
 let inputFile;
 let outputFile;
-const readStream = process.stdin;
-const writeStream = process.stdout;
-
-process.stdin.setEncoding("utf8");
+let readStream;
+let writeStream;
 
 // get config -c --config if not throw error
 //In case of invalid confing human-friendly error should be printed in stderr
@@ -41,22 +39,20 @@ if (inputFileParam.length > 1) {
 }
 if (inputFileParam.length === 1) {
   inputFile = config[config.indexOf(inputFileParam[0]) + 1];
+  readStream = fs.createReadStream(inputFile, "utf-8");
 }
 if (inputFileParam.length === 0) {
-  process.stdin.on("readable", () => {
-    let d = process.stdin.read();
-    if (d) {
-      let h = console.log(d);
-    }
-  });
-  //   process.stdin.setEncoding("utf8");
-  //   process.stdin.resume();
+  readStream = process.stdin;
 }
 if (outputFileParam.length > 1) {
   throw new Error("Enter only one output file name for cipher coding");
 }
 if (outputFileParam.length === 1) {
   outputFile = config[config.indexOf(outputFileParam[0]) + 1];
+  writeStream = new WritableStream(outputFile);
+}
+if (outputFileParam.length === 0) {
+  writeStream = process.stdout;
 }
 
 console.log("cipher config", configData);

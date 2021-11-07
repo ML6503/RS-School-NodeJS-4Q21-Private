@@ -1,11 +1,11 @@
 "use strict";
-const { Transform } = require("stream");
+const { Transform, pipeline } = require("stream");
 const caesarCipher = require("./caesarCipher");
 const atbashCipher = require("./atbash");
 
 const { ENCODE, DECODE, CAESAR, ATBASH, ROT8 } = require("./constants");
 
-const createCodeTxtStream = (cipher, mode) => {
+const transformTxtStream = (cipher, mode) => {
   return new Transform({
     transform(chunk, enc, cb) {
       const txtData = chunk.toString();
@@ -25,6 +25,10 @@ const createCodeTxtStream = (cipher, mode) => {
   });
 };
 
-const codedTxtStream = createCodeTxtStream("C", 1);
+const codedTxtStream = transformTxtStream("A", 1);
 
-process.stdin.pipe(codedTxtStream).pipe(process.stdout);
+pipeline(process.stdin, codedTxtStream, process.stdout, (err) => {
+  if (err) {
+    console.log("Error: ", err);
+  }
+});

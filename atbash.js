@@ -1,4 +1,6 @@
 function atbashCipher(str) {
+  if (typeof str !== "string")
+    throw new Error("Atbash Cipher accepts only string as argument");
   const lowerCaseStr = str.toLowerCase();
   const abc = "abcdefghijklmnopqrstuvwxyz".split("");
   const zyx = "abcdefghijklmnopqrstuvwxyz".split("").reverse();
@@ -19,7 +21,7 @@ function atbashCipher(str) {
       newStr += zyx[currentIndex];
     }
   }
-  console.log(newStr);
+
   return newStr;
 }
 
