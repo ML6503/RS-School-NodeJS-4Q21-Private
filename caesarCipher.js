@@ -1,20 +1,23 @@
-module.exports = function caesarCipher(str, num, action) {
+const { ENCODE, DECODE } = require("./constants");
+
+module.exports = function caesarCipher(str, num = 1, action) {
   num = num % 26;
   const lowerCaseStr = str.toLowerCase();
   const abc = "abcdefghijklmnopqrstuvwxyz".split("");
   let newStr = "";
   for (let i = 0; i < lowerCaseStr.length; i++) {
     let currentLetter = lowerCaseStr[i];
-    if (currentLetter === " ") {
+    let currentIndex = abc.indexOf(currentLetter);
+    let newIndex;
+
+    if (currentLetter === " " || currentIndex === -1) {
       newStr += currentLetter;
       continue;
     }
-    let currentIndex = abc.indexOf(currentLetter);
-    let newIndex;
-    if (action === "encode") {
+    if (action === ENCODE) {
       newIndex = currentIndex + num;
     }
-    if (action === "decode") {
+    if (action === DECODE) {
       newIndex = currentIndex - num;
     }
     if (newIndex > 25) {
