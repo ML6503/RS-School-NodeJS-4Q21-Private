@@ -25,10 +25,12 @@ const transformTxtStream = (cipher, mode) => {
   });
 };
 
-const codedTxtStream = transformTxtStream("A", 1);
+// const codedTxtStream = transformTxtStream("A", 1);
 
-pipeline(process.stdin, codedTxtStream, process.stdout, (err) => {
-  if (err) {
-    console.log("Error: ", err);
-  }
-});
+// pipeline(process.stdin, codedTxtStream, process.stdout, (err) => {
+//   if (err) {
+//     console.log("Error: ", err);
+//   }
+// });
+
+module.exports = { transformTxtStream };
