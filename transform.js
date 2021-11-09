@@ -1,5 +1,5 @@
 "use strict";
-const { Transform, pipeline } = require("stream");
+const { Transform } = require("stream");
 const caesarCipher = require("./caesarCipher");
 const atbashCipher = require("./atbash");
 
@@ -25,12 +25,4 @@ const transformTxtStream = (cipher, mode) => {
   });
 };
 
-// const codedTxtStream = transformTxtStream("A", 1);
-
-// pipeline(process.stdin, codedTxtStream, process.stdout, (err) => {
-//   if (err) {
-//     console.log("Error: ", err);
-//   }
-// });
-
-module.exports = { transformTxtStream };
+module.exports = transformTxtStream;

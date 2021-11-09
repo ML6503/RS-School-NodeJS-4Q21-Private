@@ -1,35 +1,32 @@
-const areArgInvalid = (a, b) => {
-  return !(typeof a === "number" && typeof b === "number");
-};
-
-const sum = (a, b) => {
-  c;
-  if (areArgInvalid(a, b)) throw new invalidArgError("Some args are incorrect");
-  return a + b;
-};
-
-class invalidArgError extends Error {
+class argError extends Error {
   constructor(msg) {
     super(msg);
-    this.name = "Invalid Argument Error";
-    this.isCustom = true;
+    this.name = "Argument Error";
+    this.isCustomArg = true;
+  }
+}
+
+class fileError extends Error {
+  constructor(msg) {
+    super(msg);
+    this.name = "File Access Error";
+    this.isFileAccess = true;
   }
 }
 
 const errorHandler = (err) => {
-  const { isCustom } = err;
-  if (isCustom) {
-    console.log("Argument Input Error: ", err.name);
-    console.log("Application is stil in process, enter missing argument.");
-  } else {
-    throw err;
+  const { isCustomArg, isFileAccess } = err;
+  if (isCustomArg) {
+    console.log("Argument Input Error: ", err.stderr.toString());
+  }
+  if (isFileAccess) {
+    console.log("File Access Error: ", err.stderr.toString());
   }
 };
 
-try {
-  sum(1, "5");
-} catch (e) {
-  errorHandler(e);
-}
-
-setInterval(() => {}, 1000);
+// try {
+//   sum(1, "5");
+// } catch (e) {
+//   errorHandler(e);
+// }
+module.exports = errorHandler;
