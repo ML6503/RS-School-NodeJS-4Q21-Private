@@ -1,6 +1,8 @@
+const { argError } = require("./error");
+
 function atbashCipher(str) {
   if (typeof str !== "string")
-    throw new Error("Atbash Cipher accepts only string as argument");
+    throw new argError("Atbash Cipher accepts only string as argument");
   const lowerCaseStr = str.toLowerCase();
   const abc = "abcdefghijklmnopqrstuvwxyz".split("");
   const zyx = "abcdefghijklmnopqrstuvwxyz".split("").reverse();

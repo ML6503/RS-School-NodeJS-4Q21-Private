@@ -1,3 +1,4 @@
+const { argError } = require("./error");
 // get config -c --config if not throw error
 //In case of invalid confing human-friendly error should be printed in stderr
 //and the process should exit with non-zero status code.
@@ -21,10 +22,10 @@ const getParams = (args) => {
   );
 
   if (configParam.length > 1) {
-    throw new Error("Enter only one config for cipher coding");
+    throw new argError("Enter only one config for cipher coding");
   }
   if (configParam.length === 0) {
-    throw new Error("Enter a config for cipher");
+    throw new argError("Enter a config for cipher");
   }
   if (configParam.length > 0) {
     configData = config[config.indexOf(configParam[0]) + 1];
@@ -34,10 +35,10 @@ const getParams = (args) => {
   //and the process should exit with non-zero status code.
 
   if (configParam.length > 1) {
-    throw new Error("Enter only one config for cipher");
+    throw new argError("Enter only one config for cipher");
   }
   if (inputFileParam.length > 1) {
-    throw new Error("Enter only one input file name for cipher coding");
+    throw new argError("Enter only one input file name for cipher coding");
   }
   if (inputFileParam.length === 1) {
     inputFile = config[config.indexOf(inputFileParam[0]) + 1];
@@ -48,7 +49,7 @@ const getParams = (args) => {
     inputFile = null;
   }
   if (outputFileParam.length > 1) {
-    throw new Error("Enter only one output file name for cipher coding");
+    throw new argError("Enter only one output file name for cipher coding");
   }
   if (outputFileParam.length === 1) {
     outputFile = config[config.indexOf(outputFileParam[0]) + 1];

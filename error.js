@@ -17,10 +17,14 @@ class fileError extends Error {
 const errorHandler = (err) => {
   const { isCustomArg, isFileAccess } = err;
   if (isCustomArg) {
-    console.log("Argument Input Error: ", err.stderr.toString());
+    // console.log("Argument Input Error: ", err.stderr.toString());
+    console.error("Argument Input Error: ", err);
   }
   if (isFileAccess) {
-    console.log("File Access Error: ", err.stderr.toString());
+    // console.log("File Access Error: ", err.stderr.toString());
+    console.error("File Access Error: ", err);
+  } else {
+    console.error("Error: ", err);
   }
 };
 
@@ -29,4 +33,4 @@ const errorHandler = (err) => {
 // } catch (e) {
 //   errorHandler(e);
 // }
-module.exports = errorHandler;
+module.exports = { errorHandler, fileError, argError };

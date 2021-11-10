@@ -1,8 +1,11 @@
 const { ENCODE, DECODE } = require("./constants");
+const { argError } = require("./error");
 
 module.exports = function caesarCipher(str, num, action) {
   if (typeof str !== "string")
-    throw new Error("Caesar and ROT-8 Cipher accept only string as argument");
+    throw new argError(
+      "Caesar and ROT-8 Cipher accept only string as argument"
+    );
 
   num = num % 26;
   const lowerCaseStr = str.toLowerCase();
