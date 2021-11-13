@@ -22,18 +22,18 @@ class WritableStream extends Writable {
     fs.readFile(this.filename, { encoding: "utf8" }, (err, data) => {
       if (err) {
         process.exitCode = 1;
-        // console.error("Read File Error: ", err.message);
         throw new fileError("Read File Error: ", err.message);
       }
       const newData = data + chunk.toString() + "\n";
       fs.writeFile(this.filename, newData, "utf8", (error) => {
         if (error) {
           process.exitCode = 1;
-          // console.error("Write File Error: ", error.message);
           throw new fileError("Write File Error: ", error.message);
         }
       });
     });
+
+    callback();
   }
 
   _destroy(err, callback) {

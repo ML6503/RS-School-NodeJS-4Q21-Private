@@ -16,7 +16,7 @@ class fileError extends Error {
 
 const errorHandler = (err) => {
   const { isCustomArg, isFileAccess } = err;
-  console.log("error handler", isFileAccess);
+
   if (isCustomArg) {
     // console.log("Argument Input Error: ", err.stderr.toString());
     console.error("Argument Input Error: ", err.message);
@@ -31,9 +31,4 @@ const errorHandler = (err) => {
   }
 };
 
-// try {
-//   sum(1, "5");
-// } catch (e) {
-//   errorHandler(e);
-// }
 module.exports = { errorHandler, fileError, argError };
