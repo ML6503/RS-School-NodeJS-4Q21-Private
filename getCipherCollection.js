@@ -4,7 +4,26 @@ const { ATBASH, CAESAR, ROT8 } = require("./constants");
 
 const getCipherCollection = (configCipher) => {
   const configCipherArray = configCipher.split("-");
+  const prohibitedSymbols = configCipher
+    .split("")
+    .filter(
+      (l) =>
+        l !== "C" &&
+        l !== "1" &&
+        l !== "R" &&
+        l !== "A" &&
+        l !== "-" &&
+        l !== "1" &&
+        l !== "0"
+    );
+
   configCipherArray.map((c) => {
+    if (prohibitedSymbols.length > 0) {
+      process.exitCode = 1;
+      throw new argError(
+        "Ciphering CLI tool accepts argument for ciphering only in format {XY(-)}n"
+      );
+    }
     if (
       c.charAt(0) !== ATBASH &&
       c.charAt(0) !== CAESAR &&
@@ -12,13 +31,13 @@ const getCipherCollection = (configCipher) => {
     ) {
       process.exitCode = 1;
       throw new argError(
-        "Ciphering CLI tool accepts only 'C', 'A' and 'R' as ciphering configuration option"
+        "Ciphering CLI tool accepts only 'C', 'A' and 'R' as X ciphering configuration option in {XY(-)} format"
       );
     }
     if (Number(c.charAt(1)) !== 0 && Number(c.charAt(1)) !== 1) {
       process.exitCode = 1;
       throw new argError(
-        "Ciphering CLI tool accepts only 1 for encoding or 0 for decoding as ciphering configuration option"
+        "Ciphering CLI tool accepts only 1 or 0 as Y ciphering configuration option in {XY(-)} format"
       );
     }
     if (c.charAt(0) === ATBASH && c.charAt(1)) {
