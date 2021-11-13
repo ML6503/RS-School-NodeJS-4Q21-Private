@@ -8,32 +8,37 @@ class WritableStream extends Writable {
     this.filename = filename;
   }
   _construct(callback) {
-    fs.open(this.filename, "r+", (err, fd) => {
-      if (err) {
-        callback(err);
+    // fs.open(this.filename, "a", (err, fd) => {
+    //   if (err) {
+    //     callback(err);
+    //   } else {
+    //     this.fd = fd;
+    //     callback();
+    //   }
+    // });
+
+    try {
+      if (fs.existsSync(this.filename)) {
+        fs.open(this.filename, "a", (err, fd) => {
+          if (err) {
+            callback(err);
+          } else {
+            this.fd = fd;
+            callback();
+          }
+        });
       } else {
-        this.fd = fd;
-        callback();
+        process.exitCode = 1;
+        throw new fileError(`${this.filename}  doesn't exists`);
       }
-    });
+    } catch (err) {
+      errorHandler(err);
+      this._destroy(err, callback);
+    }
   }
 
   _write(chunk, encoding, callback) {
-    fs.readFile(this.filename, { encoding: "utf8" }, (err, data) => {
-      if (err) {
-        process.exitCode = 1;
-        throw new fileError("Read File Error: ", err.message);
-      }
-      const newData = data + chunk.toString() + "\n";
-      fs.writeFile(this.filename, newData, "utf8", (error) => {
-        if (error) {
-          process.exitCode = 1;
-          throw new fileError("Write File Error: ", error.message);
-        }
-      });
-    });
-
-    callback();
+    fs.write(this.fd, chunk + "\n", callback);
   }
 
   _destroy(err, callback) {

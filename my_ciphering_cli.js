@@ -1,7 +1,8 @@
 const fs = require("fs");
 const { pipeline } = require("stream");
 const WritableStream = require("./writable");
-process.stdin.setEncoding("utf8");
+const ReadableStream = require("./readable");
+
 const getParams = require("./getParams");
 const getCipherCollection = require("./getCipherCollection");
 const { errorHandler } = require("./error");
@@ -17,8 +18,11 @@ const runCiphering = () => {
   // if no input file name then - use stdin as an input source for encoding / decoding
   const readStream =
     inputFile !== null
-      ? fs.createReadStream(inputFile, "utf-8")
+      ? // ? fs.createReadStream(inputFile, "utf-8")
+        new ReadableStream(inputFile)
       : process.stdin;
+
+  readStream.setEncoding("utf8");
 
   // use stdout as an output destination if no output file exists or no permission
   const writeStream =
