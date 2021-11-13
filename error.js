@@ -18,13 +18,14 @@ const errorHandler = (err) => {
   const { isCustomArg, isFileAccess } = err;
   if (isCustomArg) {
     // console.log("Argument Input Error: ", err.stderr.toString());
-    console.error("Argument Input Error: ", err);
-  }
-  if (isFileAccess) {
+    console.error("Argument Input Error: ", err.message);
+    process.exitCode = 1;
+  } else if (isFileAccess) {
     // console.log("File Access Error: ", err.stderr.toString());
-    console.error("File Access Error: ", err);
+    console.error("File Access Error: ", err.message);
   } else {
-    console.error("Error: ", err);
+    console.error("Error: ", err.message);
+    process.exitCode = 1;
   }
 };
 

@@ -1,11 +1,10 @@
 const fs = require("fs");
 const { pipeline } = require("stream");
-// const WritableStream = require("./writable");
+const WritableStream = require("./writable");
 process.stdin.setEncoding("utf8");
 const getParams = require("./getParams");
 const getCipherCollection = require("./getCipherCollection");
 const { errorHandler } = require("./error");
-const { runMain } = require("module");
 
 const runCiphering = () => {
   const args = process.argv;
@@ -24,7 +23,8 @@ const runCiphering = () => {
   // use stdout as an output destination if no output file exists or no permission
   const writeStream =
     outputFile !== null
-      ? fs.createWriteStream(outputFile, { flags: "a" })
+      ? // ? fs.createWriteStream(outputFile, { flags: "a" })
+        new WritableStream(outputFile, { flags: "a" })
       : process.stdout;
 
   //Each cipher is implemented in the form of a transform stream.
@@ -38,10 +38,14 @@ const runCiphering = () => {
   // use .pipe streams instances method or pipeline
   pipeline(readStream, ...cipherArray, writeStream, (err) => {
     if (err) {
-      console.error("Error: ", err);
+      console.error("Error: ", err.message);
+      // errorHandler(err);
+      process.exitCode = 1;
     }
   });
 };
+
+// runCiphering();
 
 try {
   runCiphering();

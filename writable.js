@@ -1,7 +1,7 @@
 const { Writable } = require("stream");
 const fs = require("fs");
 
-class WriteStream extends Writable {
+class WritableStream extends Writable {
   constructor(filename) {
     super();
     this.filename = filename;
@@ -17,7 +17,11 @@ class WriteStream extends Writable {
     });
   }
   _write(chunk, encoding, callback) {
-    fs.write(this.fd, chunk, callback);
+    fs.writeFile(this.filename, chunk.toString(), (err) => {
+      if (err) {
+        console.error("Write File Error: ", err.message);
+      }
+    });
   }
   _destroy(err, callback) {
     if (this.fd) {
