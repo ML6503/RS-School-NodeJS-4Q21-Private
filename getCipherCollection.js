@@ -12,13 +12,13 @@ const getCipherCollection = (configCipher) => {
     ) {
       process.exitCode = 1;
       throw new argError(
-        "Ciphering CLI accepts only 'C', 'A' and 'R' as ciphering configuration option"
+        "Ciphering CLI tool accepts only 'C', 'A' and 'R' as ciphering configuration option"
       );
     }
     if (Number(c.charAt(1)) !== 0 && Number(c.charAt(1)) !== 1) {
       process.exitCode = 1;
       throw new argError(
-        "Ciphering CLI accepts only 1 to code or 0 to decode as ciphering configuration option"
+        "Ciphering CLI tool accepts only 1 for encoding or 0 for decoding as ciphering configuration option"
       );
     }
   });

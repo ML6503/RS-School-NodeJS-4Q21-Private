@@ -24,7 +24,7 @@ const runCiphering = () => {
   const writeStream =
     outputFile !== null
       ? // ? fs.createWriteStream(outputFile, { flags: "a" })
-        new WritableStream(outputFile, { flags: "a" })
+        new WritableStream(outputFile)
       : process.stdout;
 
   //Each cipher is implemented in the form of a transform stream.

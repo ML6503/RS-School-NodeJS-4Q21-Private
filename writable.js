@@ -1,5 +1,6 @@
 const { Writable } = require("stream");
 const fs = require("fs");
+const { fileError, errorHandler } = require("./error");
 
 class WritableStream extends Writable {
   constructor(filename) {
@@ -7,7 +8,7 @@ class WritableStream extends Writable {
     this.filename = filename;
   }
   _construct(callback) {
-    fs.open(this.filename, (err, fd) => {
+    fs.open(this.filename, "r+", (err, fd) => {
       if (err) {
         callback(err);
       } else {
@@ -16,13 +17,25 @@ class WritableStream extends Writable {
       }
     });
   }
+
   _write(chunk, encoding, callback) {
-    fs.writeFile(this.filename, chunk.toString(), (err) => {
+    fs.readFile(this.filename, { encoding: "utf8" }, (err, data) => {
       if (err) {
-        console.error("Write File Error: ", err.message);
+        process.exitCode = 1;
+        // console.error("Read File Error: ", err.message);
+        throw new fileError("Read File Error: ", err.message);
       }
+      const newData = data + chunk.toString() + "\n";
+      fs.writeFile(this.filename, newData, "utf8", (error) => {
+        if (error) {
+          process.exitCode = 1;
+          // console.error("Write File Error: ", error.message);
+          throw new fileError("Write File Error: ", error.message);
+        }
+      });
     });
   }
+
   _destroy(err, callback) {
     if (this.fd) {
       fs.close(this.fd, (er) => callback(er || err));

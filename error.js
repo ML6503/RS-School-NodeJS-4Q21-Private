@@ -16,6 +16,7 @@ class fileError extends Error {
 
 const errorHandler = (err) => {
   const { isCustomArg, isFileAccess } = err;
+  console.log("error handler", isFileAccess);
   if (isCustomArg) {
     // console.log("Argument Input Error: ", err.stderr.toString());
     console.error("Argument Input Error: ", err.message);
@@ -23,6 +24,7 @@ const errorHandler = (err) => {
   } else if (isFileAccess) {
     // console.log("File Access Error: ", err.stderr.toString());
     console.error("File Access Error: ", err.message);
+    process.exitCode = 1;
   } else {
     console.error("Error: ", err.message);
     process.exitCode = 1;
