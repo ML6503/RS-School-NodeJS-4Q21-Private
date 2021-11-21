@@ -17,19 +17,13 @@ const runCiphering = () => {
   const outputFile = getParams(args).outputFile;
   // if no input file name then - use stdin as an input source for encoding / decoding
   const readStream =
-    inputFile !== null
-      ? // ? fs.createReadStream(inputFile, "utf-8")
-        new ReadableStream(inputFile)
-      : process.stdin;
+    inputFile !== null ? new ReadableStream(inputFile) : process.stdin;
 
   readStream.setEncoding("utf8");
 
   // use stdout as an output destination if no output file exists or no permission
   const writeStream =
-    outputFile !== null
-      ? // ? fs.createWriteStream(outputFile, { flags: "a" })
-        new WritableStream(outputFile)
-      : process.stdout;
+    outputFile !== null ? new WritableStream(outputFile) : process.stdout;
 
   //Each cipher is implemented in the form of a transform stream.
   const cipherArray = getCipherCollection(configCipher);
@@ -43,13 +37,10 @@ const runCiphering = () => {
   pipeline(readStream, ...cipherArray, writeStream, (err) => {
     if (err) {
       console.error("Error: ", err.message);
-      // errorHandler(err);
       process.exitCode = 1;
     }
   });
 };
-
-// runCiphering();
 
 try {
   runCiphering();
@@ -60,3 +51,4 @@ try {
 //If the input and/or output file is given but doesn't exist or you can't access it
 //(e.g. because of permissions or it's a directory) - human-friendly error should be printed in stderr
 //and the process should exit with non-zero status code.
+module.exports = { runCiphering };
