@@ -35,7 +35,8 @@ const runCiphering = () => {
   // use .pipe streams instances method or pipeline
   pipeline(readStream, ...cipherArray, writeStream, (err) => {
     if (err) {
-      console.error("Error: ", err.message);
+      // console.error("Error: ", err.message);
+      errorHandler(err);
       process.exitCode = 1;
     }
   });

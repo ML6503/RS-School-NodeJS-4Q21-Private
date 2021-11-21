@@ -21,10 +21,11 @@ const errorHandler = (err) => {
     // console.log("Argument Input Error: ", err.stderr.toString());
     console.error("Argument Input Error: ", err.message);
     process.exitCode = 1;
-  } else if (isFileAccess) {
+  }
+  if (isFileAccess) {
     // console.log("File Access Error: ", err.stderr.toString());
-    console.error("File Access Error: ", err.message);
     process.exitCode = 1;
+    return console.error("File Access Error: ", err.message);
   } else {
     console.error("Error: ", err.message);
     process.exitCode = 1;

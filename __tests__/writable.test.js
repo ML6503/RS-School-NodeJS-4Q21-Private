@@ -28,4 +28,24 @@ describe("WritableStream testing", () => {
     let result = new WritableStream();
     expect(result).toBeInstanceOf(Writable);
   });
+
+  test("writable should output a valid Stream", () => {
+    const stream = new WritableStream();
+    const expectedBuffer = Buffer.from(
+      'This is secret. Message about "_" symbol!'
+    );
+    let bytes = Buffer.from("");
+
+    stream.on("data", (chunk) => {
+      bytes = Buffer.concat([bytes, chunk]);
+    });
+
+    stream.on("end", () => {
+      try {
+        expect(bytes).to.deep.equal(expectedBuffer);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
 });

@@ -53,11 +53,8 @@ const getParams = (args) => {
   }
   if (outputFileParam.length === 1) {
     outputFile = config[config.indexOf(outputFileParam[0]) + 1];
-    // writeStream = new WritableStream(outputFile);
-    //   writeStream = fs.createWriteStream(outputFile);
   }
   if (outputFileParam.length === 0) {
-    //   writeStream = process.stdout;
     outputFile = null;
   }
 
