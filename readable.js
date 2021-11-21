@@ -22,6 +22,7 @@ class ReadableStream extends Readable {
     const buf = Buffer.alloc(n);
     fs.read(this.fd, buf, 0, n, null, (err, bytesRead) => {
       if (err) {
+        errorHandler(er);
         this.destroy(err);
       } else {
         this.push(bytesRead > 0 ? buf.slice(0, bytesRead) : null);
