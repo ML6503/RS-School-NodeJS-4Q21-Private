@@ -2,10 +2,9 @@ const fs = require("fs");
 const { pipeline } = require("stream");
 const WritableStream = require("./writable");
 const ReadableStream = require("./readable");
-
+const { errorHandler } = require("./error");
 const getParams = require("./getParams");
 const getCipherCollection = require("./getCipherCollection");
-const { errorHandler } = require("./error");
 
 const runCiphering = () => {
   const args = process.argv;

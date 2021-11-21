@@ -5,6 +5,9 @@ const { spawn } = require("child_process");
 const { PassThrough } = require("stream");
 const { runCiphering } = require("../my_ciphering_cli");
 const getParams = require("../getParams");
+const ReadableStream = require("../readable");
+const WritableStream = require("../writable");
+const getCipherCollection = require("../getCipherCollection");
 
 describe("runCiphering testing Success scenarios", () => {
   const testAppFilePath = path.join(__dirname, "../my_ciphering_cli.js");
@@ -78,5 +81,23 @@ describe("runCiphering testing Success scenarios", () => {
       done();
       process.exit(1);
     });
+  });
+
+  test("Ciphering cli throw error if incorrect input file name and process exit with code 1", () => {
+    process.argv = [
+      "node",
+      "./my_ciphering_cli",
+      "-c",
+      "C1-C0-A-R1-R0-A-R0-R0-C1-A",
+      "-i",
+      "./iinput.txt",
+    ];
+
+    try {
+      runCiphering();
+    } catch (e) {
+      expect(e).toContain("File access error:");
+    }
+    expect(process.exitCode).toBe(1);
   });
 });
