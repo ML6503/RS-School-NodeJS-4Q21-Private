@@ -1,0 +1,12 @@
+{
+  "name": "cyphering_cli_tool_testing",
+  "version": "1.0.0",
+  "description": "Cyphering CLI Tool ",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  }
+}
